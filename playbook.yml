@@ -1,0 +1,45 @@
+---
+- hosts: servers
+  become: true
+  tasks:
+    - name: Actualizar cache de software
+      apt:
+        update_cache: yes
+
+    - name: Instalar Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Instalar Cowsay
+      apt:
+        name: cowsay
+        state: present
+
+    - name: Crear archivo
+      file:
+        path: /home/vagrant/archivo.txt
+        state: touch
+
+    - name: Crear carpetas
+      file:
+        path: /home/vagrant/carpeta
+        state: directory
+
+    - name: Copiar archivo
+      copy:
+        src: /home/vagrant/archivo.txt
+        dest: /home/vagrant/carpeta/archivo.txt
+
+    - name: Iniciar servicio Apache
+      service:
+        name: apache2
+        state: started
+
+    - name: Agregar un usuario
+      user:
+        name: nuevo_usuario
+        state: present
+
+    - name: Ejecutar un script
+      command: /usr/games/cowsay "Ansible ha completado las tareas"
